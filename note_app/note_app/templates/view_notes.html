@@ -1,0 +1,45 @@
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'styles.css' %}">
+
+{% for note in notes %}
+  <div class="note">
+    <p>{{ note.content }}</p>
+    <ul>
+      {% for task in note.task_set.all %}
+        <li>
+          <input type="checkbox" id="task-{{ task.id }}" {% if task.completed %}checked{% endif %}>
+          <label for="task-{{ task.id }}">{{ task.content }}</label>
+        </li>
+      {% endfor %}
+    </ul>
+    <a href="{% url 'edit_note' note.id %}">Edit</a>
+    <form method="post" action="{% url 'delete_note' note.id %}">
+      {% csrf_token %}
+      <button type="submit">Delete</button>
+    </form>
+  </div>
+{% endfor %}
+
+<div>
+  <a href="{% url 'create_note' %}"><button>Create Note</button></a>
+  <form method="post" action="{% url 'logout' %}">
+    {% csrf_token %}
+    <button type="submit">Logout</button>
+  </form>
+</div>
+
+<script>
+  document.querySelectorAll('input[type="checkbox"]').forEach(function(checkbox) {
+    checkbox.addEventListener('change', function() {
+      var taskId = this.id.split('-')[1];
+      fetch('/toggle_task/' + taskId + '/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRFToken': '{{ csrf_token }}'
+        },
+        body: JSON.stringify({completed: this.checked})
+      });
+    });
+  });
+</script>

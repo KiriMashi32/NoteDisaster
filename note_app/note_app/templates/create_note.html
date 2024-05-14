@@ -1,0 +1,37 @@
+{% load static %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'styles.css' %}">
+
+{% comment %} {% extends "base_generic.html" %} {% endcomment %}
+
+
+
+
+<form method="post" id="noteForm">
+  {% csrf_token %}
+  {{ form.content.label_tag }} {{ form.content }}
+  <div id="taskList">
+      <div class="task">
+          <label for="task-0">Task:</label>
+          <input type="text" name="task-0" id="task-0">
+      </div>
+  </div>
+  <button type="button" id="addTask">Add task</button>
+  <button type="submit">Create note</button>
+</form>
+
+<script>
+  var taskIndex = 1;
+  document.getElementById('addTask').addEventListener('click', function() {
+      var taskList = document.getElementById('taskList');
+      var newTask = document.createElement('div');
+      newTask.innerHTML = '<div class="task"><label for="task-' + taskIndex + '">Task:</label><input type="text" name="task-' + taskIndex + '" id="task-' + taskIndex + '"><button type="button" class="removeTask">Remove</button></div>';
+      taskList.appendChild(newTask);
+      taskIndex++;
+  });
+  document.getElementById('taskList').addEventListener('click', function(e) {
+      if (e.target && e.target.classList.contains('removeTask')) {
+          e.target.parentNode.remove();
+      }
+  });
+  </script>

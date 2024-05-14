@@ -1,0 +1,90 @@
+body {
+  background-color: #f5f5f5;
+  font-family: Arial, sans-serif;
+}
+
+.note {
+  width: 200px;
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin: 10px;
+  background-color: #fff;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+  border-radius: 2px;
+  display: inline-block;
+  vertical-align: top;
+}
+
+.note p {
+  margin: 0;
+  word-wrap: break-word;
+}
+
+.note a, .note input[type="submit"] {
+  display: inline-block;
+  margin-top: 10px;
+  color: #888;
+  text-decoration: none;
+}
+
+.note input[type="submit"] {
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+.center-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.create-note {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 300px;
+  margin: auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+}
+
+.create-note form {
+  width: 100%;
+}
+
+.create-note button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  font-size: 18px;
+  color: #fff;
+  background-color: #007BFF;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.create-note button:hover {
+  background-color: #0056b3;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: #f0f0f0; /* Remplacez par la couleur ou l'image d'arrière-plan de votre choix */
+  background-size: cover; /* Assurez-vous que l'arrière-plan couvre tout l'écran */
+}
+
+.create-note {
+  width: 300px;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+}

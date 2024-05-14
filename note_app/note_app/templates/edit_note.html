@@ -1,0 +1,43 @@
+{% load static %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'styles.css' %}">
+
+<form method="post" id="noteForm">
+  {% csrf_token %}
+  {{ form.content.label_tag }} {{ form.content }}
+  <div id="taskList">
+    {% for task in note.task_set.all %}
+    <div class="task">
+      <label for="task-{{ task.id }}">Task:</label>
+      <input type="text" name="task-{{ task.id }}" id="task-{{ task.id }}" value="{{ task.content }}">
+      <input type="hidden" name="task-{{ task.id }}-delete" id="task-{{ task.id }}-delete">
+      <a href="{% url 'delete_task' task.id %}" class="deleteTask">Delete</a>
+    </div>
+    {% endfor %}
+  </div>
+  <button type="button" id="addTask">Add task</button>
+  <button type="submit">Save note</button>
+</form>
+
+<script>
+  var lastTaskId = {{ note.task_set.last.id|default_if_none:"0" }}; // Obtenir l'ID de la dernière tâche existante
+  var taskIndex = lastTaskId + 1; // Utiliser l'ID de la dernière tâche existante + 1 comme index pour la prochaine tâche
+
+  document.getElementById('addTask').addEventListener('click', function() {
+    var taskList = document.getElementById('taskList');
+    var newTask = document.createElement('div');
+    newTask.innerHTML = '<div class="task"><label for="task-' + taskIndex + '">Task:</label><input type="text" name="task-' + taskIndex + '" id="task-' + taskIndex + '"><input type="hidden" name="task-' + taskIndex + '-delete" id="task-' + taskIndex + '-delete"><button type="button" class="removeTask">Remove</button></div>';
+    taskList.appendChild(newTask);
+    taskIndex++; // Incrémenter l'index pour la prochaine tâche
+  });
+  
+  document.getElementById('taskList').addEventListener('click', function(e) {
+    if (e.target && e.target.classList.contains('removeTask')) {
+      e.target.parentNode.remove();
+    } else if (e.target && e.target.classList.contains('deleteTask')) {
+      var taskId = e.target.getAttribute('data-task-id');
+      document.getElementById('task-' + taskId + '-delete').value = 'true'; // Marquer la tâche à supprimer
+      e.target.parentNode.remove(); // Supprimer visuellement la tâche
+    }
+  });
+</script>
